@@ -89,7 +89,7 @@ facebook : fb.com/sumit.luv
 
       <tr>
         <td> {{p.name}}</td>
-        <td> <img src="{% static p.product_image.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
+        <td> <img src="{{ p.product_image }}" alt="Profile Pic" height="40px" width="40px" /></td>
         <td>{{p.price}}</td>
         <td>{{p.description}}</td>
 
