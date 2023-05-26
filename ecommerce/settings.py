@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'ecom',
     'widget_tweaks',
 
+    'rest_framework'
+
 ]
 
 MIDDLEWARE = [
