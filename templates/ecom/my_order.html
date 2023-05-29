@@ -172,7 +172,7 @@ p {
                 <li class="col-md-4">
                   <figure class="itemside mb-3">
                     {%for product in products%}
-                      <div class="aside"><img src="{% static product.product_image.url %}" class="img-sm border"></div>
+                      <div class="aside"><img src="{{ product.product_image }}" class="img-sm border"></div>
                       <figcaption class="info align-self-center">
 
                           <p class="title"><strong>Nomi : </strong>{{product.name}} <br> <strong>Ta'rifi : </strong>{{product.description}}</p> <span class="text-muted"><strong>Narxi : </strong>{{product.price}} </span>
