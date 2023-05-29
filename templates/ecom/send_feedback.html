@@ -6,7 +6,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>LazyCoder || sumit</title>
+  <title>Diyorbek Jumanov || djumanov</title>
 <style media="screen">
   .form-style-1 {
   	margin:10px auto;
@@ -104,20 +104,20 @@
   {%endif%}
 
   <center>
-    <h3 class='alert alert-success'>Send Us Your Valuable Feedback !</h3>
+    <h3 class='alert alert-success'>Bizga qimmatli fikr-mulohazalaringizni yuboring !</h3>
 
 
     <form method="post">
       {% csrf_token %}
     <ul class="form-style-1">
         <li>
-            <label>Name <span class="required">*</span></label>
+            <label>Nomi <span class="required">*</span></label>
             {% render_field feedbackForm.name class="field-long"  %}
 
         </li>
 
         <li>
-            <label>Your Feedback <span class="required">*</span></label>
+            <label>Sizning fikringiz <span class="required">*</span></label>
             {% render_field feedbackForm.feedback id="field5" class="field-long field-textarea"  %}
 
         </li>

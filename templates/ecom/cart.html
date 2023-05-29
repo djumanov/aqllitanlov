@@ -71,17 +71,16 @@ facebook : fb.com/sumit.luv
 <div class="container">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <h6 style="text-align:center;" class="panel-title">My Cart</h6>
+      <h6 style="text-align:center;" class="panel-title">Mening savatcham</h6>
     </div>
     <table class="table table-hover" id="dev-table">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Image</th>
-          <th>Price</th>
-          <th>Description</th>
-          <th>Remove From Cart</th>
-
+          <th>Nomi</th>
+          <th>Rasmi</th>
+          <th>Narxi</th>
+          <th>Ta'rifi</th>
+          <th>Savatchadan o'chirish</th>
         </tr>
       </thead>
       {% for p in products %}
@@ -98,7 +97,7 @@ facebook : fb.com/sumit.luv
       </tr>
       {%else%}
       <br><br><br>
-      <h1>no products</h1>
+      <h1>Mahsulotlar yo'q</h1>
       {% endif %}
       {% endfor %}
     </table>
@@ -106,8 +105,8 @@ facebook : fb.com/sumit.luv
 </div>
 <br><br><br>
 <div style="text-align: center;">
-  <button class="button button2">Total {{total}}</button>
-  <a href="/customer-address"><button class="button" ><span>Purchase </span></button></a>
+  <button class="button button2">Umumiy {{total}}</button>
+  <a href="/customer-address"><button class="button" ><span>Sotib olish </span></button></a>
 </div>
 
 

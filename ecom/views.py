@@ -557,4 +557,4 @@ class ProductView(APIView):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)

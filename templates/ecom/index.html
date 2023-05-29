@@ -337,9 +337,9 @@ body {
                 </div>
 
                 <a class="cart" href="{% url 'add-to-cart' p.id  %}">
-                  <span class="price">₹ {{p.price}}</span>
+                  <span class="price">{{p.price}} so'm</span>
                   <span class="add-to-cart">
-                    <span class="txt">Add in cart</span>
+                    <span class="txt">Savatga qo'shish</span>
                   </span>
                 </a>
               </div>
@@ -360,7 +360,7 @@ body {
 </div>
 <!-- products data enddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
 {%else%}
-<h3 style="text-align:center; color:yellow;">No Search Found</h3>
+<h3 style="text-align:center; color:yellow;">Qidiruv topilmadi</h3>
 {%endif%}
 
 <script>
