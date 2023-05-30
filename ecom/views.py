@@ -572,7 +572,7 @@ TOKEN = '6028508838:AAFWKJdf3oRkdylWzvv2ZElQ_apUhCBCyMA'
 bot = Bot(TOKEN)
 
 # new
-key = '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'
+key = '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'
 # key = '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'
 openai.api_key = key
 
