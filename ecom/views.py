@@ -587,6 +587,8 @@ def comparison(update: Update, context: CallbackContext) -> None:
 def recommend(update: Update, context: CallbackContext):
     phone_model = update.message.text
 
+    global chat_bot_state
+
     if chat_bot_state == 'info':
         completion = openai.Completion.create(
             model = 'gpt-3.5-turbo',
@@ -641,6 +643,7 @@ class ChatbotView(APIView):
 
         dp.add_handler(CommandHandler('start', start))
         dp.add_handler(CommandHandler('info', info))
+        dp.add_handler(CommandHandler('comparison', comparison))
         dp.add_handler(MessageHandler(Filters.text, recommend))
 
         dp.process_update(update)
