@@ -596,3 +596,19 @@ class ChatbotView(APIView):
         dp.process_update(update)
 
         return Response(status=status.HTTP_200_OK)
+
+
+class SetView(APIView):
+    def post(self, request: Request) -> Response:
+        url = 'https://aqllitanlov.pythonanywhere.com/api/bot/'
+
+        bot.set_webhook(url)
+
+        return Response({"status": "ok"}, status=status.HTTP_200_OK)
+
+class InfoView(APIView):
+    def get(self, request: Request) -> Response:
+        data = bot.get_webhook_info()
+
+        return Response(data.to_dict(), status=status.HTTP_200_OK)
+    
