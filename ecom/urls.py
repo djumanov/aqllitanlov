@@ -1,11 +1,9 @@
 from django.urls import path
 
-from .views import ProductView, RecommentView
+from .views import ProductView, ChatbotView
 
 
 urlpatterns = [
     path('product/', ProductView.as_view()),
-    path('bot/', RecommentView.as_view()),
-    path('set/', RecommentView.as_view()),
-    path('info/', RecommentView.as_view()),
+    path('bot/', ChatbotView.as_view()),
 ]
