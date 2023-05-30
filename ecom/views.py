@@ -558,3 +558,41 @@ class ProductView(APIView):
             return Response(status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+
+
+from telegram import Update, Bot
+from telegram.ext import CommandHandler, MessageHandler, Filters, CallbackContext, Dispatcher
+import openai
+
+TOKEN = '6028508838:AAFWKJdf3oRkdylWzvv2ZElQ_apUhCBCyMA'
+bot = Bot(TOKEN)
+
+# key = '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'
+# openai.api_key = key
+
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_html(f"Assalomu alaykum, {update.message.chat.first_name}!\n\n<b>AqlliTanlov tavsiyachi chatbotiga xush kelibsiz!</b>\n\n<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
+
+def help(update: Update, context: CallbackContext) -> None:
+    update.message.reply_html("<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
+
+def recommend(update: Update, context: CallbackContext) -> None:
+    update.message.reply_html("<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
+
+
+class ChatbotView(APIView):
+    def post(self, request: Request) -> Response:
+        data = request.data
+        
+        update: Update = Update.de_json(data, bot)
+
+        dp = Dispatcher(bot, None, workers=0)
+
+        dp.add_handler(CommandHandler('start', start))
+        dp.add_handler(CommandHandler('help', help))
+        dp.add_handler(MessageHandler(Filters.text, recommend))
+
+        dp.process_update(update)
+
+        return Response(status=status.HTTP_200_OK)
