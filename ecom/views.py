@@ -595,6 +595,7 @@ def recommend(update: Update, context: CallbackContext):
     if chat_bot_state == 'info':
         completion = openai.Completion.create(
             model = 'gpt-3.5-turbo',
+            max_tokens = 100,
             messages = [
                 {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
                 {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
@@ -607,6 +608,7 @@ def recommend(update: Update, context: CallbackContext):
         )
 
         reply_content = completion.choices[0].message.content
+        print(reply_content)
         update.message.reply_text(reply_content)
 
         chat_bot_state = ''
