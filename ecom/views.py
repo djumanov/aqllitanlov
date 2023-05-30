@@ -565,20 +565,70 @@ from telegram import Update, Bot
 from telegram.ext import CommandHandler, MessageHandler, Filters, CallbackContext, Dispatcher
 import openai
 
+chat_bot_state = ''
+
 TOKEN = '6028508838:AAFWKJdf3oRkdylWzvv2ZElQ_apUhCBCyMA'
 bot = Bot(TOKEN)
 
-# key = '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'
-# openai.api_key = key
+key = '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'
+openai.api_key = key
 
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_html(f"Assalomu alaykum, {update.message.chat.first_name}!\n\n<b>AqlliTanlov tavsiyachi chatbotiga xush kelibsiz!</b>\n\n<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
 
-def help(update: Update, context: CallbackContext) -> None:
-    update.message.reply_html("<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
+def info(update: Update, context: CallbackContext) -> None:
+    chat_bot_state = 'info'
+    update.message.reply_html('Qanday telefon haqida ma\'lumot kerak?')
 
-def recommend(update: Update, context: CallbackContext) -> None:
-    update.message.reply_html("<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
+def comparison(update: Update, context: CallbackContext) -> None:
+    chat_bot_state = 'comparison'
+    update.message.reply_html('Qanday telefon haqida ma\'lumot kerak?')
+
+def recommend(update: Update, context: CallbackContext):
+    phone_model = update.message.text
+
+    if chat_bot_state == 'info':
+        completion = openai.Completion.create(
+            model = 'gpt-3.5-turbo',
+            messages = [
+                {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
+                {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
+                {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
+                {'role': 'assistant', 'content': 'Ha, albatta!'},
+                {'role': 'user', 'content': 'Menga telefon haqida ma\'lumot kerak.'},
+                {'role': 'assistant', 'content': 'Telefon modelini ayta olasizmi?'},
+                {'role': 'user', 'content': 'Ha albatta, menga' + phone_model + ' haqida ma\'lumot kerak.'},
+            ]
+        )
+
+        reply_content = completion.choices[0].message.content
+        update.message.reply_text(reply_content)
+
+        chat_bot_state = ''
+    
+    elif chat_bot_state == 'comparison':
+        completion = openai.Completion.create(
+            model = 'gpt-3.5-turbo',
+            messages = [
+                {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
+                {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
+                {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
+                {'role': 'assistant', 'content': 'Ha, albatta!'},
+                {'role': 'user', 'content': 'Menga ikkita telefonni taqqoslash kerak.'},
+                {'role': 'assistant', 'content': 'Telefon modellari nomini ayta olasizmi?'},
+                {'role': 'user', 'content': 'Ha albatta, menga' + phone_model + ' haqida ma\'lumot kerak.'},
+            ]
+        )
+
+        reply_content = completion.choices[0].message.content
+        update.message.reply_text(reply_content)
+
+        chat_bot_state = ''
+    
+    else:
+        update.message.reply_text('Qanday telefon haqida ma\'lumot kerak?')
+        chat_bot_state = 'info'
+
 
 
 class ChatbotView(APIView):
@@ -590,7 +640,7 @@ class ChatbotView(APIView):
         dp = Dispatcher(bot, None, workers=0)
 
         dp.add_handler(CommandHandler('start', start))
-        dp.add_handler(CommandHandler('help', help))
+        dp.add_handler(CommandHandler('info', info))
         dp.add_handler(MessageHandler(Filters.text, recommend))
 
         dp.process_update(update)
