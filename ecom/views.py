@@ -568,6 +568,9 @@ import openai
 chat_bot_state = ''
 
 TOKEN = '6028508838:AAFWKJdf3oRkdylWzvv2ZElQ_apUhCBCyMA'
+
+#new
+TOKEN = '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'
 bot = Bot(TOKEN)
 
 key = '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'
