@@ -572,9 +572,9 @@ TOKEN = '6028508838:AAFWKJdf3oRkdylWzvv2ZElQ_apUhCBCyMA'
 bot = Bot(TOKEN)
 
 # new
-key = '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'
-# key = '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'
-openai.api_key = key
+# key = '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'
+# # key = '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'
+# openai.api_key = key
 
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_html(f"Assalomu alaykum, {update.message.chat.first_name}!\n\n<b>AqlliTanlov tavsiyachi chatbotiga xush kelibsiz!</b>\n\n<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
@@ -593,6 +593,7 @@ def recommend(update: Update, context: CallbackContext):
     global chat_bot_state
 
     if chat_bot_state == 'info':
+        openai.api_key = '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'
         completion = openai.Completion.create(
             model = 'gpt-3.5-turbo',
             max_tokens = 100,
@@ -614,6 +615,7 @@ def recommend(update: Update, context: CallbackContext):
         chat_bot_state = ''
     
     elif chat_bot_state == 'comparison':
+        openai.api_key = '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'
         completion = openai.Completion.create(
             model = 'gpt-3.5-turbo',
             messages = [
@@ -670,3 +672,5 @@ class InfoView(APIView):
 
         return Response(data.to_dict(), status=status.HTTP_200_OK)
     
+# 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
+# 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
