@@ -573,7 +573,7 @@ bot = Bot(TOKEN)
 
 
 def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_html(f"Assalomu alaykum, {update.message.chat.first_name}!\n\n<b>AqlliTanlov tavsiyachi chatbotiga xush kelibsiz!</b>\n\n<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
+    update.message.reply_html(f"Assalomu alaykum, {update.message.chat.first_name}!\n\n<b>AqlliTanlov tavsiyachi chatbotiga xush kelibsiz!</b>\n\nBotdan foydalanish uchun quyidagi buyruqlardan birini tanlang:\n\n/start - Botni ishga tushirish\n/malumot - biror telefon haqida bilish\n/solishtir - ikkita telefonni taqqoslash\n/tavsiya - biror telefon olishda tavsiya olish")
 
 def info(update: Update, context: CallbackContext) -> None:
     global chat_bot_state
@@ -609,9 +609,9 @@ def recommend(update: Update, context: CallbackContext):
                 {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
                 {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
                 {'role': 'assistant', 'content': 'Ha, albatta! men telefon do\'kon sotuvchisi nomidan sizga umuman telefonlar haqida malumot va maslahatb bera olaman!'},
-                {'role': 'user', 'content': 'Menga telefon haqida ma\'lumot kerak.'},
-                {'role': 'assistant', 'content': 'Telefon modelini ayta olasizmi?'},
-                {'role': 'user', 'content': 'Ha albatta, menga' + phone_model + ' haqida ma\'lumot kerak.'},
+                {'role': 'user', 'content': 'Menga telefon bir telefon model batavsil haqida ma\'lumot kerak. Uning xarakteristikasi haqida ham'},
+                {'role': 'assistant', 'content': 'Sizga to\'liq ma\'lumot berishim mumikin, telefon modelini ayta olasizmi?'},
+                {'role': 'user', 'content': phone_model},
             ]
         )
 
@@ -659,7 +659,7 @@ def recommend(update: Update, context: CallbackContext):
                 {'role': 'user', 'content': 'Men bir telefon olmoqchiman lekin ozgina ikkilanyapman sababi menda mablag\' ozroq iloji bo\'lsa menga maslahat bera olasizmi?'},
                 {'role': 'assistant', 'content': 'Ha albatta mahalahat bera olaman'},
                 {'role': 'user', 'content': 'Unda men sizga qaysi telefonni olmoqchiligim va qancha pulim bor ekanligini aytaman'},
-                {'role': 'assistant', 'content': 'Yaxshi siz aytsangiz men sizga osha telefon narxlari qancha ekanligi va shu narxdagi boshqa telefonlar haqida aytaman'},
+                {'role': 'assistant', 'content': 'Yaxshi siz aytsangiz men sizga osha telefon xarakteristikasi va sizning mablag\'ingiz yetadigan boshqa modellar haqida ham aytaman, albatta umuman narxalrdan kelib chiqqan holda'},
                 {'role': 'user', 'content': f'Yaxshi, {phone_model}'},
             ]
         )
@@ -670,8 +670,7 @@ def recommend(update: Update, context: CallbackContext):
         chat_bot_state = ''
     
     else:
-        update.message.reply_text('Qanday telefon haqida ma\'lumot kerak?')
-        chat_bot_state = 'info'
+        update.message.reply_text('Yana yordam kerak bo\'lsa buyruqlardan birini tanlang')
 
 
 
