@@ -580,10 +580,12 @@ def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_html(f"Assalomu alaykum, {update.message.chat.first_name}!\n\n<b>AqlliTanlov tavsiyachi chatbotiga xush kelibsiz!</b>\n\n<b>Botdan foydalanish uchun quyidagi buyruqlardan birini tanlang:</b>\n\n/start - Botni ishga tushirish\n/help - Yordam olish")
 
 def info(update: Update, context: CallbackContext) -> None:
+    global chat_bot_state
     chat_bot_state = 'info'
     update.message.reply_html('Qanday telefon haqida ma\'lumot kerak?')
 
 def comparison(update: Update, context: CallbackContext) -> None:
+    global chat_bot_state
     chat_bot_state = 'comparison'
     update.message.reply_html('Qanday telefon haqida ma\'lumot kerak?')
 
@@ -593,7 +595,7 @@ def recommend(update: Update, context: CallbackContext):
     global chat_bot_state
 
     if chat_bot_state == 'info':
-        openai.api_key = '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'
+        openai.api_key = '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'
         completion = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
             max_tokens = 100,
@@ -615,7 +617,7 @@ def recommend(update: Update, context: CallbackContext):
         chat_bot_state = ''
     
     elif chat_bot_state == 'comparison':
-        openai.api_key = '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'
+        openai.api_key = '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'
         completion = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
             messages = [
