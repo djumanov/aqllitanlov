@@ -580,10 +580,15 @@ def info(update: Update, context: CallbackContext) -> None:
     chat_bot_state = 'info'
     update.message.reply_html('Qanday telefon haqida ma\'lumot kerak?')
 
+def advise(update: Update, context: CallbackContext) -> None:
+    global chat_bot_state
+    chat_bot_state = 'advise'
+    update.message.reply_html('Qaysi telefon olishga ikkilanyapsiz? Qancha mablag\'ingiz bor?')
+
 def comparison(update: Update, context: CallbackContext) -> None:
     global chat_bot_state
     chat_bot_state = 'comparison'
-    update.message.reply_html('Qanday telefon haqida ma\'lumot kerak?')
+    update.message.reply_html('Qaysi telefonlarni solishtirmoqchisiz?')
 
 def recommend(update: Update, context: CallbackContext):
     phone_model = update.message.text
@@ -603,7 +608,7 @@ def recommend(update: Update, context: CallbackContext):
                 {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
                 {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
                 {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
-                {'role': 'assistant', 'content': 'Ha, albatta!'},
+                {'role': 'assistant', 'content': 'Ha, albatta! men telefon do\'kon sotuvchisi nomidan sizga umuman telefonlar haqida malumot va maslahatb bera olaman!'},
                 {'role': 'user', 'content': 'Menga telefon haqida ma\'lumot kerak.'},
                 {'role': 'assistant', 'content': 'Telefon modelini ayta olasizmi?'},
                 {'role': 'user', 'content': 'Ha albatta, menga' + phone_model + ' haqida ma\'lumot kerak.'},
@@ -628,9 +633,34 @@ def recommend(update: Update, context: CallbackContext):
                 {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
                 {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
                 {'role': 'assistant', 'content': 'Ha, albatta!'},
-                {'role': 'user', 'content': 'Menga ikkita telefonni taqqoslash kerak.'},
-                {'role': 'assistant', 'content': 'Telefon modellari nomini ayta olasizmi?'},
+                {'role': 'user', 'content': 'Menga ikkita telefonni taqqoslash kerak va ularni qaysi biri kuchliroq ekanligi haqida ayta olasizmi?'},
+                {'role': 'assistant', 'content': 'Ha albatta, Telefon modellari nomini ayta olasizmi?'},
                 {'role': 'user', 'content': 'Ha albatta, menga' + phone_model + ' haqida ma\'lumot kerak.'},
+            ]
+        )
+
+        reply_content = completion.choices[0].message.content
+        update.message.reply_text(reply_content)
+
+        chat_bot_state = ''
+
+    elif chat_bot_state == 'advise':
+        import os
+        import openai
+        openai.api_key = os.environ['key']
+
+        completion = openai.ChatCompletion.create(
+            model = 'gpt-3.5-turbo',
+            messages = [
+                {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
+                {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
+                {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
+                {'role': 'assistant', 'content': 'Ha, albatta!'},
+                {'role': 'user', 'content': 'Men bir telefon olmoqchiman lekin ozgina ikkilanyapman sababi menda mablag\' ozroq iloji bo\'lsa menga maslahat bera olasizmi?'},
+                {'role': 'assistant', 'content': 'Ha albatta mahalahat bera olaman'},
+                {'role': 'user', 'content': 'Unda men sizga qaysi telefonni olmoqchiligim va qancha pulim bor ekanligini aytaman'},
+                {'role': 'assistant', 'content': 'Yaxshi siz aytsangiz men sizga osha telefon narxlari qancha ekanligi va shu narxdagi boshqa telefonlar haqida aytaman'},
+                {'role': 'user', 'content': f'Yaxshi, {phone_model}'},
             ]
         )
 
@@ -653,9 +683,10 @@ class ChatbotView(APIView):
 
         dp = Dispatcher(bot, None, workers=0)
 
-        dp.add_handler(CommandHandler('start', start))
-        dp.add_handler(CommandHandler('info', info))
-        dp.add_handler(CommandHandler('comparison', comparison))
+        dp.add_handler(CommandHandler(['start', 'boshlash'], start))
+        dp.add_handler(CommandHandler('malumot', info))
+        dp.add_handler(CommandHandler('solishtir', comparison))
+        dp.add_handler(CommandHandler('tavsiya', advise))
         dp.add_handler(MessageHandler(Filters.text, recommend))
 
         dp.process_update(update)
