@@ -598,8 +598,8 @@ def recommend(update: Update, context: CallbackContext):
         import os
         import openai
         openai.organization = "aqllitanlov"
-        openai.api_key = os.environ.get('key')
-        
+        openai.api_key = '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'
+
         completion = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
             max_tokens = 100,
@@ -624,7 +624,7 @@ def recommend(update: Update, context: CallbackContext):
         import os
         import openai
         openai.organization = "aqllitanlov"
-        openai.api_key = os.environ.get('key')
+        openai.api_key = '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'
 
         completion = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
