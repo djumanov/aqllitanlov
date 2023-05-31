@@ -603,7 +603,6 @@ def recommend(update: Update, context: CallbackContext):
 
         completion = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
-            max_tokens = 100,
             messages = [
                 {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
                 {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
