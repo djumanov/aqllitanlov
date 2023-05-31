@@ -595,7 +595,7 @@ def recommend(update: Update, context: CallbackContext):
     global chat_bot_state
 
     if chat_bot_state == 'info':
-        openai.api_key = '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'
+        openai.api_key = open('key.txt').read().strip()
         completion = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
             max_tokens = 100,
@@ -617,7 +617,7 @@ def recommend(update: Update, context: CallbackContext):
         chat_bot_state = ''
     
     elif chat_bot_state == 'comparison':
-        openai.api_key = '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'
+        openai.api_key = open('key.txt').read().strip()
         completion = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
             messages = [
