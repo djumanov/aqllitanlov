@@ -604,12 +604,10 @@ def recommend(update: Update, context: CallbackContext):
         completion = openai.ChatCompletion.create(
             model = 'gpt-3.5-turbo',
             messages = [
-                {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
-                {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
-                {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
-                {'role': 'assistant', 'content': 'Ha, albatta! men telefon do\'kon sotuvchisi nomidan sizga umuman telefonlar haqida malumot va maslahatb bera olaman!'},
-                {'role': 'user', 'content': 'Menga telefon bir telefon model batavsil haqida ma\'lumot kerak. Uning xarakteristikasi haqida ham'},
-                {'role': 'assistant', 'content': 'Sizga to\'liq ma\'lumot berishim mumikin, telefon modelini ayta olasizmi?'},
+                {'role': 'user', 'content': 'Assalomu alaykum!'},
+                {'role': 'assistant', 'content': 'Valeykum assalom. Men telefonlar mutaxassisiman. Menda har qanday telefon haqida qo\'liq malumot bot. Sizga qanday yordam bera olaman?'},
+                {'role': 'user', 'content': 'Bitta telefon model xarakteristikasi haqida batafsil ma\'lumot kerak bo\'ldi'},
+                {'role': 'assistant', 'content': 'Yaxshi. Telefon model nomini ayta olasizmi?'},
                 {'role': 'user', 'content': phone_model},
             ]
         )
@@ -629,12 +627,10 @@ def recommend(update: Update, context: CallbackContext):
             model = 'gpt-3.5-turbo',
             messages = [
                 {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
-                {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
-                {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
-                {'role': 'assistant', 'content': 'Ha, albatta!'},
+                {'role': 'assistant', 'content': 'Valeykum assalom, men telefon mutaxassisiman. Menda har qanday telefon haqida ma\'lut bor. Sizga qanday yordam bera olaman?'},
                 {'role': 'user', 'content': 'Menga ikkita telefonni taqqoslash kerak va ularni qaysi biri kuchliroq ekanligi haqida ayta olasizmi?'},
-                {'role': 'assistant', 'content': 'Ha albatta, Telefon modellari nomini ayta olasizmi?'},
-                {'role': 'user', 'content': 'Ha albatta, menga' + phone_model + ' haqida ma\'lumot kerak.'},
+                {'role': 'assistant', 'content': 'Ha albatta, Telefon modellar nomini ayta olasizmi?'},
+                {'role': 'user', 'content': phone_model},
             ]
         )
 
@@ -652,14 +648,12 @@ def recommend(update: Update, context: CallbackContext):
             model = 'gpt-3.5-turbo',
             messages = [
                 {'role': 'user', 'content': 'Assalomu alaykum, hayrli kech!'},
-                {'role': 'assistant', 'content': 'Valeykum assalom, sizga qanday yordam bera olaman?'},
-                {'role': 'user', 'content': 'Siz o\'zingizni AqlliTanlov tavsiyachi chatboti yangi telefon sotadigan onlayn do\'kon sotuvchisi nomidan yoza olasizmi?'},
-                {'role': 'assistant', 'content': 'Ha, albatta!'},
+                {'role': 'assistant', 'content': 'Valeykum assalom, men telefonlar haqida ma\'lumot beruvchiman. sizga qanday yordam bera olaman?'},
                 {'role': 'user', 'content': 'Men bir telefon olmoqchiman lekin ozgina ikkilanyapman sababi menda mablag\' ozroq iloji bo\'lsa menga maslahat bera olasizmi?'},
                 {'role': 'assistant', 'content': 'Ha albatta mahalahat bera olaman'},
-                {'role': 'user', 'content': 'Unda men sizga qaysi telefonni olmoqchiligim va qancha pulim bor ekanligini aytaman'},
-                {'role': 'assistant', 'content': 'Yaxshi siz aytsangiz men sizga osha telefon xarakteristikasi va sizning mablag\'ingiz yetadigan boshqa modellar haqida ham aytaman, albatta umuman narxalrdan kelib chiqqan holda'},
-                {'role': 'user', 'content': f'Yaxshi, {phone_model}'},
+                {'role': 'user', 'content': 'men sizga qaysi telefonni olmoqchiligim va qancha pulim bor ekanligini aytaman'},
+                {'role': 'assistant', 'content': 'Yaxshi. Men sizga osha telefon xarakteristikasi va sizning mablag\'ingiz yetadigan boshqa modellar haqida ham aytaman, albatta umuman narxalrdan kelib chiqqan holda'},
+                {'role': 'user', 'content': phone_model},
             ]
         )
 
@@ -669,7 +663,22 @@ def recommend(update: Update, context: CallbackContext):
         chat_bot_state = ''
     
     else:
-        update.message.reply_text('Yana yordam kerak bo\'lsa buyruqlardan birini tanlang')
+        import os
+        import openai
+        openai.api_key = os.environ['key']
+
+        completion = openai.ChatCompletion.create(
+            model = 'gpt-3.5-turbo',
+            messages = [
+                {'role': 'assistant', 'content': "Assalomu alaykum! Men AqlliTanlov telefon sotuvchi onlayn do'kon yordamchi ishchisiman. Mening vazifam sizing har qanday telefonlar haqida bergan savollaringizga javob beraman. Menga savollaringizni berishingiz yoki yordam kerak bo'lgan ma'lumotlarni so'rashingiz mumkin. Menga boshlash uchun, istalgan savolingizni yuboring yoki menimcha sizga nima yordam berishim mumkinligini bildiring."},
+                {'role': 'user', 'content': phone_model},
+            ]
+        )
+
+        reply_content = completion.choices[0].message.content
+        update.message.reply_text(reply_content)
+
+        chat_bot_state = ''
 
 
 
